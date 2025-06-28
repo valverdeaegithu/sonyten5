@@ -1,335 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Live Stream Player</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <meta name="referrer" content="no-referrer"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Match</title>
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
-        body {
-            background-color: #000;
+        html, body {
             margin: 0;
             padding: 0;
-            overflow: hidden
-        }
-        html, body {
-            height: 100%
-        }
-        video {
             width: 100%;
             height: 100%;
-            max-width: 100%
+            background-color: black;
+            overflow: hidden;
         }
-        .plyr {
-            height: 100%
+        #jwplayerDiv {
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
         }
-        #message {
-            display: none;
+
+        /* Transparent Telegram Popup */
+        #telegramPopup {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            color: white;
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            text-align: center;
-            padding: 20px;
-        }
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            backdrop-filter: blur(6px);
-            background: rgb(0 0 0 / .4);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
-            animation: fadeIn 0.5s ease
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
         }
-        .modal-content {
-            background: rgb(255 255 255 / .05);
-            border: 1px solid rgb(255 255 255 / .1);
-            border-radius: 20px;
-            padding: 30px 25px;
+
+        .popup-content {
+            background: rgba(15, 15, 15, 0.7); /* Semi-transparent dark */
+            border-radius: 16px;
+            padding: 30px;
             width: 90%;
             max-width: 400px;
             text-align: center;
-            color: #f3f4f6;
-            box-shadow: 0 8px 32px rgb(0 0 0 / .4);
-            backdrop-filter: blur(12px);
-            transform: scale(.95);
-            animation: scaleIn 0.4s ease forwards;
-            box-sizing: border-box; /* Added to fix sizing issues */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
         }
-        .modal-content h2 {
+
+        .popup-content h2 {
+            color: #29b6f6;
             font-size: 24px;
-            font-weight: 700;
-            color: #facc15;
-            margin-bottom: 16px
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
-        .modal-content p {
+
+        .popup-content p {
+            color: rgba(255, 255, 255, 0.9);
             font-size: 16px;
-            color: #d1d5db;
-            margin-bottom: 24px;
-            line-height: 1.5
+            line-height: 1.5;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
-        .modal-content strong {
-            color: #fff
-        }
-        .modal-content .buttons {
+
+        .popup-buttons {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            width: 100%; /* Ensure buttons container takes full width */
         }
-        .modal-content button, .modal-content a {
-            width: 100%;
-            padding: 14px; /* Slightly reduced padding */
-            font-size: 16px; /* Adjusted font size */
+
+        .popup-btn {
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
             border: none;
-            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-align: center;
-            display: block;
-            box-sizing: border-box; /* Added to fix sizing issues */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        #joinButton {
-            background: linear-gradient(to right, #3b82f6, #06b6d4);
-            color: #fff;
-            font-weight: 600;
-            text-decoration: none;
+
+        .join-btn {
+            background: linear-gradient(135deg, rgba(41, 182, 246, 0.9), rgba(2, 136, 209, 0.9));
+            color: white;
         }
-        #joinButton:hover {
-            background: linear-gradient(to right, #2563eb, #0891b2);
-            transform: scale(1.02)
+
+        .join-btn:hover {
+            background: linear-gradient(135deg, rgba(2, 136, 209, 0.9), rgba(1, 87, 155, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
-        #closeButton {
-            background: rgb(255 255 255 / .1);
-            color: #f3f4f6;
-            font-weight: 500;
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
         }
-        #closeButton:hover {
-            background: rgb(255 255 255 / .15);
-            transform: scale(1.02)
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
         }
+
         @keyframes fadeIn {
-            from { opacity: 0 }
-            to { opacity: 1 }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        @keyframes scaleIn {
-            to { transform: scale(1); opacity: 1 }
-        }
-        @media (max-width: 480px) {
-            .modal-content {
-                padding: 25px 20px; /* Reduced padding on mobile */
+
+        @keyframes slideUp {
+            from { 
+                transform: translateY(20px);
+                opacity: 0;
             }
-            .modal-content h2 { 
-                font-size: 20px;
-                margin-bottom: 12px;
-            }
-            .modal-content p { 
-                font-size: 15px;
-                margin-bottom: 20px;
-            }
-            .modal-content button, .modal-content a { 
-                padding: 12px;
-                font-size: 15px;
+            to { 
+                transform: translateY(0);
+                opacity: 1;
             }
         }
-        a { text-decoration: none }
+
+        /* Telegram Banner */
         .tg-banner {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            background: linear-gradient(135deg, rgb(29 161 242 / .85), rgb(0 119 181 / .85));
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.7), rgba(0, 119, 181, 0.7));
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border-radius: 12px;
             padding: 10px 16px;
             display: flex;
             align-items: center;
-            color: #fff;
-            box-shadow: 0 8px 24px rgb(0 0 0 / .25);
-            z-index: 1000;
-            transition: transform 0.3s ease, box-shadow 0.3s ease
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         .tg-banner:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 32px rgb(0 0 0 / .35)
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.9), rgba(0, 119, 181, 0.9));
         }
+
         .tg-banner img {
             width: 28px;
             height: 28px;
             margin-right: 10px;
             border-radius: 50%;
-            border: 2px solid rgb(255 255 255 / .8);
-            transition: transform 0.3s ease
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
-        .tg-banner:hover img {
-            transform: rotate(10deg)
-        }
+
         .tg-banner span {
             font-size: 15px;
             font-weight: 600;
-            letter-spacing: .4px;
-            text-shadow: 0 1px 2px rgb(0 0 0 / .3)
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
-    <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner">
-        <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram logo">
+    <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner" target="_blank">
+        <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram">
         <span>Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</span>
     </a>
 
-    <video id="player" autoplay muted controls crossorigin playsinline></video>
-    <div id="message">Developer tools are disabled for this page.</div>
+    <div id="jwplayerDiv"></div>
 
-    <div id="welcomeModal" class="modal">
-        <div class="modal-content">
-            <h2>Welcome to Live Stream</h2>
-            <p>Join our Telegram channel <strong>@ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</strong> for more live matches and updates!</p>
-            <div class="buttons">
-                <a href="https://t.me/+iE5UX3qoGpwyNWI1" id="joinButton">Join Telegram</a>
-                <button id="closeButton">Continue Watching</button>
+    <!-- Transparent Telegram Popup -->
+    <div id="telegramPopup">
+        <div class="popup-content">
+            <h2>Join Our Telegram!</h2>
+            <p>Get instant updates on all live matches and exclusive content by joining our Telegram channel @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</p>
+            <div class="popup-buttons">
+                <button class="popup-btn join-btn" onclick="window.open('https://t.me/+iE5UX3qoGpwyNWI1', '_blank')">Join Now</button>
+                <button class="popup-btn close-btn" onclick="closePopup()">Continue Watching</button>
             </div>
         </div>
     </div>
 
-    <!-- Rest of your script remains the same -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.4/dist/hls.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.min.js"></script>
     <script>
-        // [Previous script content remains exactly the same]
+        // Initialize JW Player
+        jwplayer("jwplayerDiv").setup({
+            file: "https://dtvxtream.com/sonyliv2/300258.m3u8",
+            autostart: true,
+            stretching: "uniform",
+            width: "100%",
+            height: "100%",
+            type: "dash"
+        });
+
+        // Close popup function with fade out animation
+        function closePopup() {
+            const popup = document.getElementById('telegramPopup');
+            popup.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+            localStorage.setItem('telegramPopupShown', 'true');
+        }
+
+        // Check if popup should be shown
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('telegramPopupShown')) {
+                document.getElementById('telegramPopup').style.display = 'flex';
+            }
+            
+            // Add fadeOut animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
         // Disable right click
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
         });
-        
+
         // Disable keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            // Disable Ctrl+Shift+I (Chrome, Firefox)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+            if ((e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.keyCode === 123) || 
+                (e.ctrlKey && e.keyCode === 85)) {
                 e.preventDefault();
-                showMessage();
-            }
-            // Disable Ctrl+U
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                showMessage();
-            }
-            // Disable F12
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                showMessage();
-            }
-        });
-        
-        // Function to show message
-        function showMessage() {
-            const message = document.getElementById('message');
-            message.style.display = 'flex';
-            setTimeout(() => {
-                message.style.display = 'none';
-            }, 3000);
-        }
-        
-        // Detect dev tools opening (works in some browsers)
-        let devtools = /./;
-        devtools.toString = function() {
-            showMessage();
-            return '';
-        };
-        
-        console.log('%c', devtools);
-        
-        // Periodically check for devtools
-        setInterval(function() {
-            const threshold = 160; // Width when devtools is open
-            if (window.outerWidth - window.innerWidth > threshold || 
-                window.outerHeight - window.innerHeight > threshold) {
-                showMessage();
-            }
-        }, 1000);
-
-        // Welcome modal
-        document.addEventListener('DOMContentLoaded', () => {
-            const modal = document.getElementById('welcomeModal');
-            const closeButton = document.getElementById('closeButton');
-            
-            // Show modal on first visit
-            if (!localStorage.getItem('modalShown')) {
-                modal.style.display = 'flex';
-                localStorage.setItem('modalShown', 'true');
-            }
-            
-            closeButton.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-            
-            // Video player setup
-            const video = document.getElementById('player');
-        const source = "https://dtvxtream.com/sonyliv2/300258.m3u8";
-
-            if (Hls.isSupported()) {
-                const hls = new Hls({ maxMaxBufferLength: 100 });
-                hls.loadSource(source);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    const availableQualities = hls.levels.map(level => level.height);
-                    const defaultQuality = availableQualities[0];
-
-                    const player = new Plyr(video, {
-                        controls: ['play-large', 'play', 'mute', 'volume', 'settings', 'fullscreen'],
-                        quality: {
-                            default: defaultQuality,
-                            options: availableQualities,
-                            forced: true,
-                            onChange: (quality) => {
-                                hls.levels.forEach((level, levelIndex) => {
-                                    if (level.height === quality) {
-                                        hls.currentLevel = levelIndex;
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                    // Fullscreen change event listener for screen orientation lock
-                    document.addEventListener('fullscreenchange', () => {
-                        if (document.fullscreenElement) {
-                            if (screen.orientation && screen.orientation.lock) {
-                                screen.orientation.lock('landscape').catch(err => {
-                                    console.error('Error locking orientation:', err);
-                                });
-                            }
-                        } else {
-                            if (screen.orientation && screen.orientation.unlock) {
-                                screen.orientation.unlock().catch(err => {
-                                    console.error('Error unlocking orientation:', err);
-                                });
-                            }
-                        }
-                    });
-                });
-
-                hls.attachMedia(video);
-                hls.loadSource(source);
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = source;
-                new Plyr(video);
-            } else {
-                document.body.innerHTML = '<p>Your browser does not support HLS playback.</p>';
             }
         });
     </script>
+
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
 </body>
 </html>
