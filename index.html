@@ -1,130 +1,234 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="index, follow">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.css" />
-    <script type="application/ld+json">
-
-    </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EBKES5GPWM');
-  </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Match</title>
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
     <style>
-        body{background-color:#000;margin:0;padding:0;overflow:hidden}html,body{height:100%}video{width:100%;height:100%;max-width:100%}.plyr{height:100%}.modal{position:fixed;top:0;left:0;width:100vw;height:100vh;backdrop-filter:blur(6px);background:rgb(0 0 0 / .4);display:flex;justify-content:center;align-items:center;z-index:9999;animation:fadeIn 0.5s ease}.modal-content{background:rgb(255 255 255 / .05);border:1px solid rgb(255 255 255 / .1);border-radius:20px;padding:30px 25px;width:90%;max-width:400px;text-align:center;color:#f3f4f6;box-shadow:0 8px 32px rgb(0 0 0 / .4);backdrop-filter:blur(12px);transform:scale(.95);animation:scaleIn 0.4s ease forwards}.modal-content h2{font-size:24px;font-weight:700;color:#facc15;margin-bottom:16px}.modal-content p{font-size:16px;color:#d1d5db;margin-bottom:24px;line-height:1.5}.modal-content strong{color:#fff}.modal-content button{width:100%;padding:12px;font-size:16px;border:none;border-radius:12px;margin-bottom:12px;cursor:pointer;transition:all 0.3s ease}#joinButton{background:linear-gradient(to right,#3b82f6,#06b6d4);color:#fff;font-weight:500}#joinButton:hover{background:linear-gradient(to right,#2563eb,#0891b2);transform:scale(1.02)}#closeButton{background:rgb(255 255 255 / .1);color:#f3f4f6}#closeButton:hover{background:rgb(255 255 255 / .15);transform:scale(1.02)}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleIn{to{transform:scale(1);opacity:1}}@media (max-width:480px){.modal-content h2{font-size:20px}.modal-content p{font-size:15px}}a{text-decoration:none}.tg-banner{position:absolute;top:16px;left:16px;background:linear-gradient(135deg,rgb(29 161 242 / .85),rgb(0 119 181 / .85));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:12px;padding:10px 16px;display:flex;align-items:center;color:#fff;box-shadow:0 8px 24px rgb(0 0 0 / .25);z-index:1000;transition:transform 0.3s ease,box-shadow 0.3s ease}.tg-banner:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 12px 32px rgb(0 0 0 / .35)}.tg-banner img{width:28px;height:28px;margin-right:10px;border-radius:50%;border:2px solid rgb(255 255 255 / .8);transition:transform 0.3s ease}.tg-banner:hover img{transform:rotate(10deg)}.tg-banner span{font-size:15px;font-weight:600;letter-spacing:.4px;text-shadow:0 1px 2px rgb(0 0 0 / .3)}
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+        #jwplayerDiv {
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* Transparent Telegram Popup */
+        #telegramPopup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .popup-content {
+            background: rgba(15, 15, 15, 0.7); /* Semi-transparent dark */
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        .popup-content h2 {
+            color: #29b6f6;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popup-btn {
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .join-btn {
+            background: linear-gradient(135deg, rgba(41, 182, 246, 0.9), rgba(2, 136, 209, 0.9));
+            color: white;
+        }
+
+        .join-btn:hover {
+            background: linear-gradient(135deg, rgba(2, 136, 209, 0.9), rgba(1, 87, 155, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Telegram Banner */
+        .tg-banner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.7), rgba(0, 119, 181, 0.7));
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tg-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.9), rgba(0, 119, 181, 0.9));
+        }
+
+        .tg-banner img {
+            width: 28px;
+            height: 28px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .tg-banner span {
+            font-size: 15px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
-
 <body>
-
-    <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner">
-        <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram logo">
-        <span>
-            Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ
-        </span>
+    <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner" target="_blank">
+        <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram">
+        <span>Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</span>
     </a>
-    <video id="player" autoplay muted controls crossorigin playsinline poster=""></video>
 
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.4/dist/hls.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const video = document.getElementById('player');
-            const source = "https://dtvxtream.com/sonyliv2/300258.m3u8";
+    <div id="jwplayerDiv"></div>
 
-            if (Hls.isSupported()) {
-                const hls = new Hls({
-                    maxMaxBufferLength: 100
-                });
-                hls.loadSource(source);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, () => {
-                    const availableQualities = hls.levels.map(level => level.height);
-                    const defaultQuality = availableQualities[0];
-
-                    const player = new Plyr(video, {
-                        controls: ['play-large', 'play', 'mute', 'volume', 'settings',
-                            'fullscreen', 'pip'
-                        ],
-                        quality: {
-                            default: defaultQuality,
-                            options: availableQualities,
-                            forced: true,
-                            onChange: (quality) => {
-                                hls.levels.forEach((level, levelIndex) => {
-                                    if (level.height === quality) {
-                                        hls.currentLevel = levelIndex;
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-                    document.addEventListener('fullscreenchange', () => {
-                        if (document.fullscreenElement) {
-                            if (screen.orientation && screen.orientation.lock) {
-                                screen.orientation.lock('landscape').catch(err => {
-                                    console.error('Error locking orientation:', err);
-                                });
-                            }
-                        } else {
-                            if (screen.orientation && screen.orientation.unlock) {
-                                screen.orientation.unlock().catch(err => {
-                                    console.error('Error unlocking orientation:', err);
-                                });
-                            }
-                        }
-                    });
-                });
-
-                hls.attachMedia(video);
-                hls.loadSource(source);
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = source;
-                new Plyr(video);
-            } else {
-                document.body.innerHTML = '<p>Your browser does not support HLS playback.</p>';
-            }
-        });
-        window.addEventListener("load", function () {
-            if (window.confirm("Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ for more updates")) {
-                window.location.href = "https://t.me/+iE5UX3qoGpwyNWI1";
-            }
-        });
-
-        window.onload = () => {
-            const container = document.createElement('div');
-            container.id = 'popup-container';
-            document.body.appendChild(container);
-            const popup = document.createElement('div');
-            popup.classList.add('modal');
-
-            popup.innerHTML = `
-            <div class="modal-content">
-              <h2>Support Us!</h2>
-              <p>Join our Telegram channel <br><strong>@ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</strong> for more updates.</p>
-              <button id="joinButton">Join Now and support us</button>
-              <button id="closeButton">Already Joined</button>
+    <!-- Transparent Telegram Popup -->
+    <div id="telegramPopup">
+        <div class="popup-content">
+            <h2>Join Our Telegram!</h2>
+            <p>Get instant updates on all live matches and exclusive content by joining our Telegram channel @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</p>
+            <div class="popup-buttons">
+                <button class="popup-btn join-btn" onclick="window.open('https://t.me/+iE5UX3qoGpwyNWI1', '_blank')">Join Now</button>
+                <button class="popup-btn close-btn" onclick="closePopup()">Continue Watching</button>
             </div>
-            `;
+        </div>
+    </div>
 
-            container.appendChild(popup);
-            popup.querySelector('#joinButton').onclick = () => {
-                window.open("https://t.me/+iE5UX3qoGpwyNWI1", "_blank");
-            };
+    <script>
+        // Initialize JW Player
+        jwplayer("jwplayerDiv").setup({
+            file: "https://dtvxtream.com/sonyliv2/300258.m3u8",
+            autostart: true,
+            stretching: "uniform",
+            width: "100%",
+            height: "100%",
+            type: "dash"
+        });
 
-            popup.querySelector('#closeButton').onclick = () => {
-                popup.remove();
-            };
-        };
-    </script>
-</body>
+        // Close popup function with fade out animation
+        function closePopup() {
+            const popup = document.getElementById('telegramPopup');
+            popup.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+            localStorage.setItem('telegramPopupShown', 'true');
+        }
 
-</html>
+        // Check if popup should be shown
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('telegramPopupShown')) {
+                document.getElementById('telegramPopup').style.display = 'flex';
+            }
             
+            // Add fadeOut animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Disable right click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.keyCode === 123) || 
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+</body>
+</html>
