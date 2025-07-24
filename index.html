@@ -1,91 +1,53 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
-    <script type="application/ld+json">
-
+    <script type="application/ld+json"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EBKES5GPWM');
     </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EBKES5GPWM');
-  </script>
     <style>
         body{background-color:#000;margin:0;padding:0;overflow:hidden}html,body{height:100%}video{width:100%;height:100%;max-width:100%}.plyr{height:100%}.modal{position:fixed;top:0;left:0;width:100vw;height:100vh;backdrop-filter:blur(6px);background:rgb(0 0 0 / .4);display:flex;justify-content:center;align-items:center;z-index:9999;animation:fadeIn 0.5s ease}.modal-content{background:rgb(255 255 255 / .05);border:1px solid rgb(255 255 255 / .1);border-radius:20px;padding:30px 25px;width:90%;max-width:400px;text-align:center;color:#f3f4f6;box-shadow:0 8px 32px rgb(0 0 0 / .4);backdrop-filter:blur(12px);transform:scale(.95);animation:scaleIn 0.4s ease forwards}.modal-content h2{font-size:24px;font-weight:700;color:#facc15;margin-bottom:16px}.modal-content p{font-size:16px;color:#d1d5db;margin-bottom:24px;line-height:1.5}.modal-content strong{color:#fff}.modal-content button{width:100%;padding:12px;font-size:16px;border:none;border-radius:12px;margin-bottom:12px;cursor:pointer;transition:all 0.3s ease}#joinButton{background:linear-gradient(to right,#3b82f6,#06b6d4);color:#fff;font-weight:500}#joinButton:hover{background:linear-gradient(to right,#2563eb,#0891b2);transform:scale(1.02)}#closeButton{background:rgb(255 255 255 / .1);color:#f3f4f6}#closeButton:hover{background:rgb(255 255 255 / .15);transform:scale(1.02)}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes scaleIn{to{transform:scale(1);opacity:1}}@media (max-width:480px){.modal-content h2{font-size:20px}.modal-content p{font-size:15px}}a{text-decoration:none}.tg-banner{position:absolute;top:16px;left:16px;background:linear-gradient(135deg,rgb(29 161 242 / .85),rgb(0 119 181 / .85));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:12px;padding:10px 16px;display:flex;align-items:center;color:#fff;box-shadow:0 8px 24px rgb(0 0 0 / .25);z-index:1000;transition:transform 0.3s ease,box-shadow 0.3s ease}.tg-banner:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 12px 32px rgb(0 0 0 / .35)}.tg-banner img{width:28px;height:28px;margin-right:10px;border-radius:50%;border:2px solid rgb(255 255 255 / .8);transition:transform 0.3s ease}.tg-banner:hover img{transform:rotate(10deg)}.tg-banner span{font-size:15px;font-weight:600;letter-spacing:.4px;text-shadow:0 1px 2px rgb(0 0 0 / .3)}
     </style>
 </head>
-
 <body>
-
     <a href="https://t.me/matcheslinks" class="tg-banner">
         <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram logo">
-        <span>
-            Join @ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥
-        </span>
+        <span>Join @ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥</span>
     </a>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Bitmovin Player Fullscreen</title>
-  <meta charset="UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <div id="player"></div>
 
-  <!-- Bitmovin Player -->
-  <script src="https://cdn.jsdelivr.net/npm/bitmovin-player@8/bitmovinplayer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bitmovin-player@8/bitmovinplayer.js"></script>
+    <script>
+        var conf = {
+            key: '534ee365-f575-4ea9-9fa5-89b5df70c973',
+            analytics: {
+                key: '533a3b01-4e7e-4a94-94e0-60efef571691',
+                title: 'Sony Ten 3',
+                videoId: 'wizard-Sony_Ten_1-1752087557160',
+            },
+            playback: {
+                autoplay: true,
+                muted: true
+            }
+        };
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: black;
-    }
+        var source = {
+            title: 'Sony Ten 3 HD',
+            hls: 'https://dtvxtream.com/sonyliv2/300255.m3u8',
+        };
 
-    #player {
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <div id="player"></div>
+        var player = new bitmovin.player.Player(document.getElementById('player'), conf);
+        player.load(source);
 
-  <script>
-    var conf = {
-      key: '534ee365-f575-4ea9-9fa5-89b5df70c973',
-      analytics: {
-        key: '533a3b01-4e7e-4a94-94e0-60efef571691',
-        title: 'Sony Ten 3',
-        videoId: 'wizard-Sony_Ten_1-1752087557160',
-      },
-      playback: {
-        autoplay: true,
-        muted: true
-      }
-    };
-
-    var source = {
-      title: 'Sony Ten 3 HD',
-      hls: 'https://dtvxtream.com/sonyliv2/300258.m3u8',
-    };
-
-    var player = new bitmovin.player.Player(document.getElementById('player'), conf);
-    player.load(source);
-  </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"71f05f0d824347ac8d8446990b92ed20","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-</body>
-</html>
-        });
-        window.addEventListener("load", function () {
-            if (window.confirm("Join @ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥 for more updates")) {
+        window.addEventListener("load", function() {
+            if(window.confirm("Join @ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥 for more updates")) {
                 window.location.href = "https://t.me/matcheslinks";
             }
         });
@@ -99,10 +61,10 @@
 
             popup.innerHTML = `
             <div class="modal-content">
-              <h2>Support Us!</h2>
-              <p>Join our Telegram channel <br><strong>@ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥</strong> for more updates.</p>
-              <button id="joinButton">Join Now and support us</button>
-              <button id="closeButton">Already Joined</button>
+                <h2>Support Us!</h2>
+                <p>Join our Telegram channel <br><strong>@ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ 🔥</strong> for more updates.</p>
+                <button id="joinButton">Join Now and support us</button>
+                <button id="closeButton">Already Joined</button>
             </div>
             `;
 
@@ -116,7 +78,6 @@
             };
         };
     </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"71f05f0d824347ac8d8446990b92ed20","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
-
 </html>
-            
