@@ -218,10 +218,49 @@
       .catch(err => {
           console.error("Failed to load video config:", err);
       });
-  </script>
-  <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
-  <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
-  <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+        // Close popup function with fade out animation
+        function closePopup() {
+            const popup = document.getElementById('telegramPopup');
+            popup.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 300);
+            localStorage.setItem('telegramPopupShown', 'true');
+        }
 
-</body> 
+        // Check if popup should be shown
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('telegramPopupShown')) {
+                document.getElementById('telegramPopup').style.display = 'flex';
+            }
+            
+            // Add fadeOut animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+        // Disable right click
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
+                (e.keyCode === 123) || 
+                (e.ctrlKey && e.keyCode === 85)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
+</body>
 </html>
+
