@@ -1,22 +1,24 @@
-<html lang="en"> 
-<head> 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZQ56E36NS"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-LZQ56E36NS');
-  </script>
-  
-  <meta charset="UTF-8"> 
-  <title>JW Player</title> 
-  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-  <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
-  <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
-
-  <style> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JW Player</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LZQ56E36NS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LZQ56E36NS');
+    </script>
+    
+    <!-- JW Player Library -->
+    <script src="//content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    
+    <style>
         html, body {
             margin: 0;
             padding: 0;
@@ -25,6 +27,7 @@
             background-color: black;
             overflow: hidden;
         }
+        
         #jwplayerDiv {
             min-width: 100%;
             min-height: 100%;
@@ -32,7 +35,7 @@
             max-height: 100%;
         }
 
-        /* Transparent Telegram Popup */
+        /* Telegram Popup Styles */
         #telegramPopup {
             position: fixed;
             top: 0;
@@ -47,7 +50,7 @@
         }
 
         .popup-content {
-            background: rgba(15, 15, 15, 0.7); /* Semi-transparent dark */
+            background: rgba(15, 15, 15, 0.7);
             border-radius: 16px;
             padding: 30px;
             width: 90%;
@@ -116,6 +119,11 @@
             to { opacity: 1; }
         }
 
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
         @keyframes slideUp {
             from { 
                 transform: translateY(20px);
@@ -168,57 +176,55 @@
     </style>
 </head>
 <body>
+    <!-- Telegram Banner -->
     <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner" target="_blank">
         <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram">
         <span>Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</span>
     </a>
 
+    <!-- JW Player Container -->
     <div id="jwplayerDiv"></div>
 
-    <!-- Transparent Telegram Popup -->
+    <!-- Telegram Popup -->
     <div id="telegramPopup">
         <div class="popup-content">
             <h2>Join Our Telegram!</h2>
             <p>Get instant updates on all live matches and exclusive content by joining our Telegram channel @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</p>
             <div class="popup-buttons">
                 <button class="popup-btn join-btn" onclick="window.open('https://t.me/+iE5UX3qoGpwyNWI1', '_blank')">Join Now</button>
-                <button class="popup-btn close-btn" onclick="closePopup()">Continue Watching</button>
+                <button class="popup-btn close-btn" id="closePopupBtn">Continue Watching</button>
             </div>
         </div>
     </div>
 
-  <div id="jwplayerDiv"></div> 
-  <script> 
-    function closePopup() {
-      document.getElementById("popup").style.display = "none";
-      document.getElementById("popupOverlay").style.display = "none";
-    }
+    <script>
+        // Initialize JW Player
+        fetch('https://raw.githubusercontent.com/valverdeaegithu/pl/refs/heads/main/sonyten5.json')
+            .then(res => res.json())
+            .then(data => {
+                const dashUrl = data.source.url;
+                const keyInfo = data.drm.clearkey.keys[0];
 
-    fetch('https://raw.githubusercontent.com/valverdeaegithu/pl/refs/heads/main/sonyten5.json')
-      .then(res => res.json())
-      .then(data => {
-          const dashUrl = data.source.url;
-          const keyInfo = data.drm.clearkey.keys[0];
+                jwplayer("jwplayerDiv").setup({
+                    file: dashUrl,
+                    autostart: true,
+                    width: "100%",
+                    height: "100%",
+                    stretching: "uniform",
+                    type: "dash",
+                    drm: {
+                        clearkey: {
+                            keyId: keyInfo.keyId,
+                            key: keyInfo.key
+                        }
+                    }
+                });
+            })
+            .catch(err => {
+                console.error("Failed to load video config:", err);
+            });
 
-          jwplayer("jwplayerDiv").setup({
-              file: dashUrl,
-              autostart: true,
-              width: "100%",
-              height: "100%",
-              stretching: "uniform",
-              type: "dash",
-              drm: {
-                  clearkey: {
-                      keyId: keyInfo.keyId,
-                      key: keyInfo.key
-                  }
-              }
-          });
-      })
-      .catch(err => {
-          console.error("Failed to load video config:", err);
-      });
-        // Close popup function with fade out animation
+        // Close popup function
         function closePopup() {
             const popup = document.getElementById('telegramPopup');
             popup.style.animation = 'fadeOut 0.3s ease forwards';
@@ -230,19 +236,13 @@
 
         // Check if popup should be shown
         document.addEventListener('DOMContentLoaded', function() {
+            // Add event listener to close button
+            document.getElementById('closePopupBtn').addEventListener('click', closePopup);
+            
+            // Show popup only if not shown before
             if (!localStorage.getItem('telegramPopupShown')) {
                 document.getElementById('telegramPopup').style.display = 'flex';
             }
-            
-            // Add fadeOut animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fadeOut {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
         });
 
         // Disable right click
@@ -252,15 +252,15 @@
 
         // Disable keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey && e.shiftKey && e.keyCode === 73) || 
-                (e.keyCode === 123) || 
-                (e.ctrlKey && e.keyCode === 85)) {
+            if ((e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+                (e.keyCode === 123) || // F12
+                (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
                 e.preventDefault();
             }
         });
     </script>
 
+    <!-- DevTools Disabler -->
     <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
 </body>
 </html>
-
