@@ -17,58 +17,175 @@
   <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
 
   <style> 
-    body { margin: 0; } 
-    .jwplayer { position: absolute !important; } 
-    .jwplayer.jw-flag-aspect-mode { min-height: 100%; max-height: 100%; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }
+        #jwplayerDiv {
+            min-width: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
 
-    /* Popup Styling */
-    .popup { 
-      position: fixed; 
-      top: 50%; 
-      left: 50%; 
-      transform: translate(-50%, -50%); 
-      background: white; 
-      padding: 20px; 
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.3); 
-      z-index: 9999; 
-      text-align: center;
-      border-radius: 10px;
-    } 
-    .popup a {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #0088cc;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-    .popup button {
-      margin-top: 10px;
-      padding: 5px 15px;
-      border: none;
-      background: red;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .popup-overlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 9998;
-    }
-  </style> 
-</head> 
-<body> 
+        /* Transparent Telegram Popup */
+        #telegramPopup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
 
-  <!-- Telegram Popup -->
-  <div class="popup-overlay" id="popupOverlay"></div>
-  <div class="popup" id="popup">
-    <h3>Join Our Telegram Channel</h3>
-    <a href="https://t.me/matcheslinks" target="_blank">Join Now</a><br>
-    <button onclick="closePopup()">Close</button>
-  </div>
+        .popup-content {
+            background: rgba(15, 15, 15, 0.7); /* Semi-transparent dark */
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        .popup-content h2 {
+            color: #29b6f6;
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-content p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popup-btn {
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .join-btn {
+            background: linear-gradient(135deg, rgba(41, 182, 246, 0.9), rgba(2, 136, 209, 0.9));
+            color: white;
+        }
+
+        .join-btn:hover {
+            background: linear-gradient(135deg, rgba(2, 136, 209, 0.9), rgba(1, 87, 155, 0.9));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Telegram Banner */
+        .tg-banner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.7), rgba(0, 119, 181, 0.7));
+            backdrop-filter: blur(8px);
+            border-radius: 12px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tg-banner:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.9), rgba(0, 119, 181, 0.9));
+        }
+
+        .tg-banner img {
+            width: 28px;
+            height: 28px;
+            margin-right: 10px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .tg-banner span {
+            font-size: 15px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <a href="https://t.me/+iE5UX3qoGpwyNWI1" class="tg-banner" target="_blank">
+        <img src="https://i.pinimg.com/originals/31/2a/f9/312af9235aadad69655688eaee97eabf.png" alt="Telegram">
+        <span>Join @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</span>
+    </a>
+
+    <div id="jwplayerDiv"></div>
+
+    <!-- Transparent Telegram Popup -->
+    <div id="telegramPopup">
+        <div class="popup-content">
+            <h2>Join Our Telegram!</h2>
+            <p>Get instant updates on all live matches and exclusive content by joining our Telegram channel @ʜɪᴍᴀɴꜱʜᴜ x ᴍᴀᴛᴄʜᴇꜱ ʟɪɴᴋꜱ</p>
+            <div class="popup-buttons">
+                <button class="popup-btn join-btn" onclick="window.open('https://t.me/+iE5UX3qoGpwyNWI1', '_blank')">Join Now</button>
+                <button class="popup-btn close-btn" onclick="closePopup()">Continue Watching</button>
+            </div>
+        </div>
+    </div>
 
   <div id="jwplayerDiv"></div> 
   <script> 
